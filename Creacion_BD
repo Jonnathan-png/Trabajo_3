@@ -1,0 +1,79 @@
+Creamos la base como "LibrosDB" y corremos el siguiente codigo:
+
+CREATE TABLE Categoria (
+Cat_id INTEGER not null,
+Cat_nombre VARCHAR (40) NOT NULL,
+PRIMARY KEY(Cat_id) 
+);
+
+INSERT INTO Categoria Values (4014, 'Educacion');
+INSERT INTO Categoria Values (4015, 'Terror');
+INSERT INTO Categoria Values (4016, 'Dramatico');
+
+
+
+CREATE TABLE Autor (
+Aut_id INTEGER not null,
+Aut_nombre VARCHAR (40) NOT NULL,
+Aut_fecha DATE NOT NULL,
+Aut_celular VARCHAR (10) NOT NULL,
+Aut_correo VARCHAR (20) NOT NULL,
+Cat_id INTEGER not null,
+PRIMARY KEY(Aut_id),
+FOREIGN KEY (Cat_id)  REFERENCES Categoria(Cat_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+INSERT INTO Autor VALUES(60101200,'Olga María Leal Cruz','1969-05-11','3060101200','olmalecr@hotmail.com',4015);
+
+
+
+CREATE TABLE Libro (
+Lib_id INTEGER NOT NULL,
+Lib_nombre VARCHAR (40) NOT NULL,
+Lib_descrip VARCHAR (400) NOT NULL,
+Lib_precio FLOAT NOT NULL,
+Lib_cant INTEGER not null,
+Lib_fecha_Publ DATE NULL,
+PRIMARY KEY(Lib_id) 
+);
+
+INSERT INTO Libro Values (5016, 'IT', 'N/A', 42000, 300, '1999-05-11' );
+INSERT INTO Libro Values (5017, 'IT II', 'N/A', 62000, 5000, '2001-05-11' );
+
+
+CREATE TABLE Libro_Autor (
+Lib_id INTEGER not null,
+Aut_id INTEGER not null,
+PRIMARY KEY(Lib_id, Aut_id),
+FOREIGN KEY (Lib_id)  REFERENCES Libro(Lib_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+FOREIGN KEY (Aut_id)  REFERENCES Autor(Aut_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+INSERT INTO Libro_Autor Values (5016, 60101200);
+
+CREATE TABLE Cliente (
+Cli_id INTEGER not null,
+Cli_nombre VARCHAR (40) NOT NULL,
+Cli_fecha DATE NOT NULL,
+Cli_celular VARCHAR (10) NOT NULL,
+Cli_correo VARCHAR (50) NOT NULL,
+PRIMARY KEY(Cli_id)
+);
+
+INSERT INTO Cliente VALUES(1091660032,'Johann Raul Ortiz Paez','1989-05-11', '3191660032','jopa@unipamplona.edu.co');
+
+
+CREATE TABLE Venta (
+Ven_id INTEGER NOT NULL,
+Cli_id INTEGER not null,
+Lib_id INTEGER NOT NULL,
+Ven_cant INTEGER NOT NULL,
+Ven_fecha DATE NOT NULL,
+PRIMARY KEY(Ven_id),
+FOREIGN KEY (Cli_id)  REFERENCES Cliente(Cli_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+FOREIGN KEY (Lib_id)  REFERENCES Libro(Lib_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+INSERT INTO Venta Values (478, 1091660032, 5016, 5, '2000-05-11');
+INSERT INTO Venta Values (48, 1091660032, 5016, 10, '2000-05-11');
+INSERT INTO Venta Values (4728, 1091660032, 5016, 100, '2000-06-11');
